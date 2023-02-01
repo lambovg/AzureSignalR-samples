@@ -1,10 +1,11 @@
 {
   "bindings": [
     {
-      "name": "myTimer",
-      "type": "timerTrigger",
+      "name": "mySbMsg",
+      "type": "serviceBusTrigger",
       "direction": "in",
-      "schedule": "* * 1 * * *"
+      "queueName": "livequeue",
+      "connection": "AzureServiceBusConnectionString"
     },
     {
       "type": "signalR",
