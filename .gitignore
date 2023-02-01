@@ -10,3 +10,5 @@ asrs.log.txt
 PublishProfiles/
 **.log.txt
 **.log
+.idea
+.DS_Store
