@@ -5,5 +5,8 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "AzureSignalRConnectionString": ""
   },
+  "Host": {
+    "CORS": "http://localhost:3000"
+  },
   "ConnectionStrings": {}
 }

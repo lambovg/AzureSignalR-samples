@@ -1,9 +1,10 @@
 {
-  "name": "",
+  "name": "signalr",
   "version": "",
   "description": "",
   "scripts" : {
-    "test": "echo \"No tests yet...\""
+    "start:azure": "func start --cors-credentials",
+    "deploy:azure": "func azure functionapp publish demo-signal-r-001"
   },
   "author": ""
 }

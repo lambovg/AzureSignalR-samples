@@ -1,10 +1,9 @@
 var https = require('https');
 
 var etag = '';
-var star = 0;
 
 module.exports = function (context) {
-    var req = https.request("https://api.github.com/repos/azure/azure-signalr", {
+    var req = https.request("https://datalogstrigger.azurewebsites.net/api/datalogs/1003/65", {
         method: 'GET',
         headers: {'User-Agent': 'serverless', 'If-None-Match': etag}
     }, res => {
@@ -17,15 +16,20 @@ module.exports = function (context) {
         res.on('data', data => {
             body += data;
         });
+
         res.on("end", () => {
+            var jbody = {}
             if (res.statusCode === 200) {
-                var jbody = JSON.parse(body);
-                star = jbody['stargazers_count'];
+                jbody = JSON.parse(body);
             }
-            
+
             context.bindings.signalRMessages = [{
-                "target": "newMessage",
-                "arguments": [ `Current star count of https://github.com/Azure/azure-signalr is: ${star}` ]
+                // "groupName": "myGroup",
+                "target": "1003-65-datalogs",
+                "arguments": [jbody]
+            }, {
+                "target": "1003-66-datalogs",
+                "arguments": ['Hello, SignalR!']
             }]
             context.done();
         });
