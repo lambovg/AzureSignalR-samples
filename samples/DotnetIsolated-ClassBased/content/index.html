@@ -64,13 +64,11 @@
                                         </a>
                                     </span>
                                     <a href="#" v-on:click.prevent="addUserToGroup(message.Sender || message.sender)">
-                                        <span v-if="message.Sender || message.sender"
-                                            class="badge badge-primary">AddUserToGroup</span>
+                                        <span class="badge badge-primary">AddUserToGroup</span>
                                     </a>
                                     <a href="#"
                                         v-on:click.prevent="removeUserFromGroup(message.Sender || message.sender)">
-                                        <span v-if="message.Sender || message.sender"
-                                            class="badge badge-primary">RemoveUserFromGroup</span>
+                                        <span class="badge badge-primary">RemoveUserFromGroup</span>
                                     </a>
                                     <a href="#"
                                         v-on:click.prevent="addConnectionToGroup(message.ConnectionId || message.connectionId)">
@@ -156,7 +154,7 @@
                     }
                 }
             });
-            const apiBaseUrl = window.location.origin;
+            const apiBaseUrl = window.location.origin
             data.username = prompt("Enter your username");
 
             var connection = null;
@@ -165,9 +163,6 @@
                 throw "No username entered";
             }
             getConnectionInfo().then(info => {
-                // make compatible with old and new SignalRConnectionInfo
-                info.accessToken = info.AccessToken || info.accessKey; // pay attention to the case
-                info.url = info.Url || info.endpoint; // pay attention to the case
                 data.ready = true;
                 const options = {
                     accessTokenFactory: () => info.accessToken
@@ -186,9 +181,15 @@
                         console.log('connected!');
                     })
                     .catch(console.error);
-            }).catch(alert);
+            }).catch(e => {
+                console.error(e);
+            });
             function getConnectionInfo() {
-                return axios.post(`${apiBaseUrl}/api/negotiate?userid=${data.username}`, null, null)
+                return axios.post(`${apiBaseUrl}/api/negotiate`, null, {
+                    headers: {
+                        "userId": data.username
+                    }
+                })
                     .then(resp => resp.data);
             }
             let counter = 0;
